@@ -54,3 +54,31 @@ def test_add_product_to_cart(page: Page):
     )
 
     print("\nProduct added to cart successfully")
+
+def test_remove_product_from_cart(page: Page):
+
+    login(page)
+
+    page.locator(
+        '[data-test="add-to-cart-sauce-labs-backpack"]'
+    ).click()
+
+    page.locator(
+        ".shopping_cart_link"
+    ).click()
+
+    expect(page.locator(".title")).to_have_text(
+        "Your Cart"
+    )
+
+    page.locator(
+        '[data-test="remove-sauce-labs-backpack"]'
+    ).click()
+
+    product_name = page.locator(
+        ".inventory_item_name"
+    )
+
+    expect(product_name).to_have_count(0)
+
+    print("\nProduct removed from cart successfully")
