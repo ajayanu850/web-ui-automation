@@ -23,3 +23,29 @@ def test_valid_login(page: Page):
     )
 
     print("\nLogin successful")
+
+def test_invalid_login(page: Page):
+
+    page.goto(BASE_URL)
+
+    page.locator('[data-test="username"]').fill(
+        "invalid_user"
+    )
+
+    page.locator('[data-test="password"]').fill(
+        "wrong_password"
+    )
+
+    page.locator('[data-test="login-button"]').click()
+
+    error_message = page.locator(
+        '[data-test="error"]'
+    )
+
+    expect(error_message).to_be_visible()
+
+    expect(error_message).to_contain_text(
+        "Username and password do not match"
+    )
+
+    print("\nInvalid login validation successful")
